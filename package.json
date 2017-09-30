@@ -7,5 +7,10 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Mindaugas Dukauskas",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.1",
+    "passport": "^0.4.0",
+    "passport-local": "^1.0.0"
+  }
 }
