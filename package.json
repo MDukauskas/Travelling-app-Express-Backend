@@ -4,21 +4,25 @@
   "description": "Travelling platform backend software.",
   "main": "index.js",
   "scripts": {
-    "test": "webpack init"
+    "prestart": "if-env NODE_ENV=production && npm run prod:stop || echo \"stopping\"",
+    "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
+    "benchmark": "node src/benchmark.js",
+    "dev:start": "nodemon src/index.js",
+    "prod:start": "pm2 start src/index.js -i 0 --name travelling-api",
+    "prod:monitor": "pm2 monitor travelling-api",
+    "prod:stop":"pm2 stop travelling-api && pm2 delete travelling-api"
   },
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
   "dependencies": {
+    "cluster": "^0.7.7",
     "express": "^4.16.1",
+    "if-env": "^1.0.0",
+    "nodemon": "^1.12.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "passport-local": "^1.0.0",
+    "pm2": "^2.7.2",
+    "siege": "^0.2.0"
   },
-  "devDependencies": {
-    "babel-core": "^6.26.0",
-    "babel-loader": "^7.1.2",
-    "babel-preset-es2015": "^6.24.1",
-    "babel-preset-react": "^6.24.1",
-    "webpack": "^3.6.0",
-    "webpack-devserver": "0.0.6"
-  }
+  "devDependencies": {}
 }
