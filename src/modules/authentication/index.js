@@ -2,7 +2,7 @@
 module.exports = function(router){
   router.get("/signin",function(req,res){
     res.send({
-      "message": "signin"
+      "message": "auth signin"
     })
   });
   router.get("/signout",function(req,res){
