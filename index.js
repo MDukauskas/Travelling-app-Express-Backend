@@ -1,4 +1,4 @@
-const config = require('./config');
+const config = require('./src/config');
 const express = require('express');
 const router = express.Router();
 const app = express();
@@ -9,7 +9,7 @@ app.get('/', (req, res) => {
   });
 });
 
-app.use('/api', require('./modules/routes')(router));
+app.use('/api', require('./src/modules/routes')(router));
 
 app.listen(config.PORT, function () {
   console.log(`Server Starts on ${config.PORT}`);

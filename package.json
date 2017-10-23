@@ -4,11 +4,12 @@
   "description": "Travelling platform backend software.",
   "main": "index.js",
   "scripts": {
-    "prestart": "if-env NODE_ENV=production && npm run prod:stop || echo \"stopping\"",
-    "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
+    "old:prestart": "if-env NODE_ENV=production && npm run prod:stop || echo \"stopping\"",
+    "start": "node index.js",
+    "start:myown": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
     "benchmark": "node src/benchmark.js",
-    "dev:start": "nodemon src/index.js",
-    "prod:start": "pm2 start src/index.js -i 0 --name travelling-api",
+    "dev:start": "nodemon index.js",
+    "prod:start": "pm2 start index.js -i 0 --name travelling-api",
     "prod:monitor": "pm2 monitor travelling-api",
     "prod:stop":"pm2 stop travelling-api && pm2 delete travelling-api"
   },
