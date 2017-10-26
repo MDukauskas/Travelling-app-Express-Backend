@@ -1,6 +1,6 @@
 
 module.exports = function(router){
-  router.get("/signin",function(req,res){
+  router.get("/signin",function(req,res, done){
     res.send({
       "message": "auth signin"
     })
