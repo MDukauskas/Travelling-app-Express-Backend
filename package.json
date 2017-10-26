@@ -4,9 +4,10 @@
   "description": "Travelling platform backend software.",
   "main": "src/index.js",
   "scripts": {
-    "start:": "node src/index.js",
+    "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
     "benchmark": "node src/benchmark.js",
-    "dev:start": "nodemon src/index.js"
+    "dev:start": "nodemon src/index.js",
+    "prod:start": "node src/index.js"
   },
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
