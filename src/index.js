@@ -4,7 +4,7 @@ const router = express.Router();
 const app = express();
 
 app.get('/', (req, res) => {
-  console.log(process.env);
+  console.log(config);
   res.send({
     'message': `welcome to ${config.APP_NAME} API version: ${config.VERSION}, Database: ${config.DATABASE_URL}`
   });
