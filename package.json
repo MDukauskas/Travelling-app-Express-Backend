@@ -2,15 +2,20 @@
   "name": "travell_express_backend",
   "version": "0.0.1",
   "description": "Travelling platform backend software.",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
+    "benchmark": "node src/benchmark.js",
+    "dev:start": "nodemon src/index.js",
+    "prod:start": "node src/index.js"
   },
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
   "dependencies": {
     "express": "^4.16.1",
+    "if-env": "^1.0.0",
+    "nodemon": "^1.12.1",
     "passport": "^0.4.0",
-    "passport-local": "^1.0.0"
+    "siege": "^0.2.0"
   }
 }
