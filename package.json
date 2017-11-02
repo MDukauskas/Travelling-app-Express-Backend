@@ -12,10 +12,15 @@
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
   "dependencies": {
+    "body-parser": "^1.18.2",
     "express": "^4.16.1",
     "if-env": "^1.0.0",
+    "jsonwebtoken": "^8.1.0",
+    "lodash": "^4.17.4",
+    "mongoose": "^4.12.5",
     "nodemon": "^1.12.1",
     "passport": "^0.4.0",
-    "siege": "^0.2.0"
+    "siege": "^0.2.0",
+    "validator": "^9.1.1"
   }
 }

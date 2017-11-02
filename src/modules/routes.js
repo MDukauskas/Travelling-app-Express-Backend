@@ -1,7 +1,7 @@
 var fs = require('fs');
 
 module.exports = function(router){
-  console.log("Modules Loaded START");
+  console.log("Modules Loader STARTED");
   console.log("===================");
     fs.readdirSync(__dirname).forEach(function(file) {
         if(file == "routes.js") { return; }
@@ -10,6 +10,6 @@ module.exports = function(router){
         router = require('./' + name)(router);
     });
     console.log("===================");
-    console.log("Modules Loaded END");
+    console.log("Modules Loader FINISHED");
     return router;
 }

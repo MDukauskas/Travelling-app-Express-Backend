@@ -1,20 +1,10 @@
+const { login, logout, register } = require('./authenticate');
+const { authenticate } = require('./authenticate_middleware');
 
 module.exports = function(router){
-  router.get("/signin",function(req,res, done){
-    res.send({
-      "message": "auth signin"
-    })
-  });
-  router.get("/signout",function(req,res){
-    res.send({
-      "message": "signout"
-    })
-  });
-  router.get("/signup",function(req,res){
-    res.send({
-      "message": "signup"
-    })
-  });
+  router.post("/login", login);
+  router.delete("/logout",authenticate, logout);
+  router.post("/register", register);
 
   return router;
 }
