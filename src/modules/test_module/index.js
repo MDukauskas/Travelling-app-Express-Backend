@@ -1,9 +1,7 @@
+const { test } = require('./test');
+
 module.exports = function(router){
-  router.get("/test",function(req,res){
-    res.send({
-      "message": "test module"
-    })
-  });
+  router.get("/test", test);
 
   return router;
 }
