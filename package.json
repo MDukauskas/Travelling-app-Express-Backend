@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "description": "Travelling platform backend software.",
   "main": "src/index.js",
+  "engines": {
+    "node": "8.9.1"
+  },
   "scripts": {
     "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
     "benchmark": "node src/benchmark.js",
