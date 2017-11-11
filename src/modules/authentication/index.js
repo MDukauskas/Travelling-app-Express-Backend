@@ -1,4 +1,4 @@
-const { login, logout, register } = require('./authentication');
+const { login, logout, register } = require('./authenticate');
 const { authentication_middleware } = require('./authentication_middleware');
 
 module.exports = function(router){

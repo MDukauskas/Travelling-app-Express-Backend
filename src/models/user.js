@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const _ = require('lodash');
 const Schema = mongoose.Schema;
 const validator = require('validator');
+const config = require('../config');
 
 var UserSchema = new Schema({
   email: {
@@ -19,7 +20,8 @@ var UserSchema = new Schema({
   password: {
     type: String,
     require: true,
-    minlength: 6
+    bcrypt: true,
+    minlength: 8
   },
   tokens: [{
     access:{
@@ -33,6 +35,8 @@ var UserSchema = new Schema({
   }]
 });
 
+UserSchema.plugin(require('mongoose-bcrypt'));
+
 UserSchema.methods.toJSON = function(){
   var user = this;
   var userObject = user.toObject();
@@ -42,8 +46,7 @@ UserSchema.methods.toJSON = function(){
 UserSchema.methods.generateAuthToken = function(){
   var user = this;
   var access = 'auth';
-  console.log(user)
-  var token = jwt.sign({_id: user._id.toHexString(), access}, 'abc123').toString();
+  var token = jwt.sign({_id: user._id.toHexString(), access}, config.TOKEN_KEY).toString();
 
   user.tokens.push({
       access,
@@ -69,7 +72,7 @@ UserSchema.statics.findByToken = function(token){
   var decoded;
 
   try {
-    decoded = jwt.verify(token, 'abc123');
+    decoded = jwt.verify(token, config.TOKEN_KEY);
   } catch (e) {
     return Promise.reject();
   }
@@ -80,5 +83,10 @@ UserSchema.statics.findByToken = function(token){
   });
 }
 
-var User = mongoose.model('User', UserSchema);
+try {
+  var User = mongoose.model('User');
+} catch( e ) {
+  var User = mongoose.model('User', UserSchema);
+}
+
 module.exports = { User };

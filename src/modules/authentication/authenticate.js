@@ -3,19 +3,26 @@ const _ = require('lodash');
 
 const login = ( req, res ) => {
   var body = _.pick(req.body, ['email', 'password']);
-  User.findOne({'email': body.email, 'password': body.password}).then((user) => {
+  User.findOne({'email': body.email}).then((user) => {
 
     if(!user){
       return Promise.reject();
     }
+    return user.verifyPassword(body.password)
+      .then( valid => {
+        if(!valid){
+          return Promise.reject();
+        }
 
-    user.generateAuthToken()
-      .then((token) => {
-        res.header({'x-auth': token}).send(user);
+        user.generateAuthToken()
+        .then((token) => {
+          res.header({'x-auth': token}).send(user);
+        }).catch(err => {
+          res.status(400).send(err);
+        });
       }).catch(err => {
-        res.status(400).send(err);
-      });
-
+        return Promise.reject();
+      })
   }).catch(err => {
     res.status(401).send();
   });

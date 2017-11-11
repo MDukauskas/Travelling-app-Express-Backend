@@ -7,7 +7,8 @@
     "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
     "benchmark": "node src/benchmark.js",
     "dev:start": "nodemon src/index.js",
-    "prod:start": "node src/index.js"
+    "prod:start": "node src/index.js",
+    "test": "mocha --timeout 10000 --watch"
   },
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
@@ -18,9 +19,15 @@
     "jsonwebtoken": "^8.1.0",
     "lodash": "^4.17.4",
     "mongoose": "^4.12.5",
+    "mongoose-bcrypt": "^1.5.0",
     "nodemon": "^1.12.1",
     "passport": "^0.4.0",
     "siege": "^0.2.0",
     "validator": "^9.1.1"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
+    "mocha": "^4.0.1"
   }
 }

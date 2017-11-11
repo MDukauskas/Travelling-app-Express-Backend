@@ -19,6 +19,11 @@ app.get('/', (req, res) => {
 
 app.use('/api', require('./modules/routes')(router));
 
-app.listen(config.PORT, function () {
+const server = app.listen(config.PORT, function () {
   console.log(`Server Starts on ${config.PORT}`);
 });
+
+module.exports = {
+    server : server,
+    app : app
+};
