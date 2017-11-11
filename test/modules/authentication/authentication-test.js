@@ -45,7 +45,7 @@ describe('Authenticate', () => {
         .end((err, res) => {
           res.should.have.status(400);
           res.body.should.be.a('object');
-          res.body.should.have.property('message').eql(`User validation failed: password: Path \`password\` (\`${userShortPassword.password}\`) is shorter than the minimum allowed length (6).`);
+          res.body.should.have.property('message').eql(`User validation failed: password: Path \`password\` (\`${userShortPassword.password}\`) is shorter than the minimum allowed length (8).`);
           done();
         });
     })
