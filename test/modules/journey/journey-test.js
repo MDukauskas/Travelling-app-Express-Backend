@@ -1,0 +1,154 @@
+process.env.NODE_ENV = 'test';
+
+let mongoose = require('mongoose');
+let { User } = require('../../../src/models/user');
+let { Journey } = require('../../../src/models/journey');
+
+// Require dev-dependencies
+let chai = require('chai');
+let chaiHttp = require('chai-http');
+let { app, server } = require('../../../src/index');
+let should = chai.should();
+
+chai.use(chaiHttp);
+
+describe('Journey', () => {
+  const user = {
+    email: 'test@gmail.com',
+    password: 'testtest'
+  };
+
+  const journey = {
+  	title: 'test title 1',
+  	description: 'test description 1',
+  	geopoints : [
+  		{
+  			title: 'test_point title 1',
+  			description: 'test point description 1',
+  			lng: 123.25,
+  			lat: -1234
+  		},{
+  			title: 'test_point title 2',
+  			description: 'test point description 2',
+  			lng: -123,
+  			lat: 1234
+  		},{
+  			title: 'test_point title 3',
+  			description: 'test point description 3',
+  			lng: -123.5656,
+  			lat: -1234.5656
+  		}
+  	]
+  };
+
+  let userToken = '';
+  let journeyId = '';
+
+  // Clears user database
+  before((done) => {
+    Journey.remove({})
+      .then(() => {
+        return chai.request(app)
+          .post('/api/login')
+          .send(user);
+      })
+      .then( res => {
+        userToken = res.headers['x-auth'];
+        done();
+      })
+      .catch( e => {
+        console.log(e);
+      })
+  });
+
+  after( done => {
+    server.close();
+    done();
+  });
+
+  describe('/POST /api/journey', () => {
+    it('it should return 401 unauthorized', (done) => {
+      chai.request(app)
+        .post('/api/journey')
+        .send(journey)
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    })
+
+    it('it should return journey object', (done) => {
+      chai.request(app)
+        .post('/api/journey')
+        .set('x-auth', userToken)
+        .send(journey)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('_id');
+          res.body.should.have.property('title').eql(journey.title);
+          res.body.should.have.property('description').eql(journey.description);
+          res.body.should.have.property('geopoints').a('array');
+          res.body.should.have.property('geopoints').length(3);
+
+          journeyId = res.body._id
+          done();
+        });
+    })
+  });
+
+  describe('/GET /api/journey', () => {
+    it('it should return 401 unauthorized', (done) => {
+      chai.request(app)
+        .get('/api/journey')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    })
+
+    it('it should return journeys array', (done) => {
+      chai.request(app)
+        .get('/api/journey')
+        .set('x-auth', userToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('array');
+          res.body.should.be.length(1);
+          res.body[0].should.have.property('_id');
+          res.body[0].should.have.property('title').eql(journey.title);
+          res.body[0].should.have.property('description').eql(journey.description);
+          res.body[0].should.have.property('geopoints').a('array');
+          res.body[0].should.have.property('geopoints').length(3);
+          done();
+        });
+    })
+  });
+
+  describe('/GET /api/journey/:id', () => {
+    it('it should return 401 unauthorized', (done) => {
+      chai.request(app)
+        .get(`/api/journey/${journeyId}`)
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    })
+
+    it('it should return journey object', (done) => {
+      chai.request(app)
+        .get(`/api/journey/${journeyId}`)
+        .set('x-auth', userToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('_id').eql(journeyId);
+          res.body.should.have.property('title').eql(journey.title);
+          res.body.should.have.property('description').eql(journey.description);
+          res.body.should.have.property('geopoints').a('array');
+          res.body.should.have.property('geopoints').length(3);
+          done();
+        });
+    })
+  });
+});

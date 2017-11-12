@@ -33,6 +33,9 @@ var UserSchema = new Schema({
       required:true
     }
   }]
+},
+{
+    timestamps: true
 });
 
 UserSchema.plugin(require('mongoose-bcrypt'));
