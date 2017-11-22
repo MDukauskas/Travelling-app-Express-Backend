@@ -37,7 +37,7 @@ const addJouney = function(req,res){
   });
 }
 
-const editJourney = function(req,res){
+const updateJourney = function(req,res){
 
 }
 
@@ -46,7 +46,7 @@ const deleteJourney = function(req,res){
 }
 
 const getJourney = function(req,res){
-  Journey.findOne({'_id': req.params.id})
+  Journey.findOne({'_id': req.params.journey_id})
     .populate('user')
     .populate('geopoints')
     .then( journey => {
@@ -76,4 +76,4 @@ const getAllUserJourneys = function(req,res, userId){
       res.status(400).send();
     })
 }
-module.exports = { addJouney, editJourney, deleteJourney, getJourney, getAllUserJourneys };
+module.exports = { addJouney, updateJourney, deleteJourney, getJourney, getAllUserJourneys };

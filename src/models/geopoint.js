@@ -13,11 +13,6 @@ var GeopointSchema = new Schema({
     type: Number,
     required: true
   },
-  large_img: {
-    type: String,
-    // required: true,
-    trim: true
-  },
   title: {
     type: String,
   },
@@ -30,7 +25,8 @@ var GeopointSchema = new Schema({
   }]
 },
 {
-    timestamps: true
+    timestamps: true,
+    strict: true
 });
 
 try {

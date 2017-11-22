@@ -26,7 +26,8 @@ var JourneySchema = new Schema({
   }]
 },
 {
-    timestamps: true
+    timestamps: true,
+    strict: true
 });
 
 try {

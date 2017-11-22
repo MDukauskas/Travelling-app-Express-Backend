@@ -7,17 +7,17 @@ const validator = require('validator');
 var PhotoSchema = new Schema({
   small_img: {
     type: String,
-    // required: true,
+    required: true,
     trim: true
   },
   medium_img: {
     type: String,
-    // required: true,
+    required: true,
     trim: true
   },
   large_img: {
     type: String,
-    // required: true,
+    required: true,
     trim: true
   },
   title: {
@@ -28,7 +28,8 @@ var PhotoSchema = new Schema({
   }
 },
 {
-    timestamps: true
+    timestamps: true,
+    strict: true
 });
 
 try {

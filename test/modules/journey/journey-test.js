@@ -1,24 +1,24 @@
-process.env.NODE_ENV = 'test';
+require('../variables');
 
-let mongoose = require('mongoose');
-let { User } = require('../../../src/models/user');
-let { Journey } = require('../../../src/models/journey');
+const mongoose = require('mongoose');
+const { User } = require('../../../src/models/user');
+const { Journey } = require('../../../src/models/journey');
 
 // Require dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let { app, server } = require('../../../src/index');
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const { app, server } = require('../../../src/index');
+const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('Journey', () => {
-  const user = {
+  let user = {
     email: 'test@gmail.com',
     password: 'testtest'
   };
 
-  const journey = {
+  let journey = {
   	title: 'test title 1',
   	description: 'test description 1',
   	geopoints : [
@@ -125,7 +125,7 @@ describe('Journey', () => {
     })
   });
 
-  describe('/GET /api/journey/:id', () => {
+  describe('/GET /api/journey/:journey_id', () => {
     it('it should return 401 unauthorized', (done) => {
       chai.request(app)
         .get(`/api/journey/${journeyId}`)

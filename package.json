@@ -17,6 +17,7 @@
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.155.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
     "if-env": "^1.0.0",
