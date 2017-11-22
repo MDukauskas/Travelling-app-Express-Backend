@@ -1,7 +1,7 @@
 
 const test = (req,res) => {
   res.send({
-    "message": "test module"
+    'message': 'test module'
   })
 };
 

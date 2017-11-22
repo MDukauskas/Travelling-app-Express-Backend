@@ -1,23 +1,23 @@
-process.env.NODE_ENV = 'test';
+require('../variables');
 
-let mongoose = require('mongoose');
-let { User } = require('../../../src/models/user');
+const mongoose = require('mongoose');
+const { User } = require('../../../src/models/user');
 
 // Require dev-dependencies
-let chai = require('chai');
-let chaiHttp = require('chai-http');
-let { app, server } = require('../../../src/index');
-let should = chai.should();
+const chai = require('chai');
+const chaiHttp = require('chai-http');
+const { app, server } = require('../../../src/index');
+const should = chai.should();
 
 chai.use(chaiHttp);
 
 describe('Authenticate', () => {
-  const user = {
+  let user = {
     email: 'test@gmail.com',
     password: 'testtest'
   };
 
-  const userShortPassword = {
+  let userShortPassword = {
     email: 'test@gmail.com',
     password: 'test'
   };

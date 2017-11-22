@@ -11,11 +11,13 @@
     "benchmark": "node src/benchmark.js",
     "dev:start": "nodemon src/index.js",
     "prod:start": "node src/index.js",
-    "test": "mocha --timeout 10000 --watch"
+    "test": "mocha --timeout 10000 --exit",
+    "test:watch": "mocha --timeout 10000 --watch"
   },
   "author": "Mindaugas Dukauskas",
   "license": "MIT",
   "dependencies": {
+    "aws-sdk": "^2.155.0",
     "body-parser": "^1.18.2",
     "express": "^4.16.1",
     "if-env": "^1.0.0",
