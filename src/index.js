@@ -1,4 +1,4 @@
-const CONFIG = require('./config');
+const CONFIG = require('./CONFIG');
 const express = require('express');
 const moongoose = require('mongoose');
 const bodyParser = require('body-parser');
