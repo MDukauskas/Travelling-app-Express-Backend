@@ -20,25 +20,7 @@ describe('Journey', () => {
 
   let journey = {
   	title: 'test title 1',
-  	description: 'test description 1',
-  	geopoints : [
-  		{
-  			title: 'test_point title 1',
-  			description: 'test point description 1',
-  			lng: 123.25,
-  			lat: -1234
-  		},{
-  			title: 'test_point title 2',
-  			description: 'test point description 2',
-  			lng: -123,
-  			lat: 1234
-  		},{
-  			title: 'test_point title 3',
-  			description: 'test point description 3',
-  			lng: -123.5656,
-  			lat: -1234.5656
-  		}
-  	]
+  	description: 'test description 1'
   };
 
   let userToken = '';
@@ -89,7 +71,7 @@ describe('Journey', () => {
           res.body.should.have.property('title').eql(journey.title);
           res.body.should.have.property('description').eql(journey.description);
           res.body.should.have.property('geopoints').a('array');
-          res.body.should.have.property('geopoints').length(3);
+          res.body.should.have.property('geopoints').length(0);
 
           journeyId = res.body._id
           done();
@@ -119,7 +101,7 @@ describe('Journey', () => {
           res.body[0].should.have.property('title').eql(journey.title);
           res.body[0].should.have.property('description').eql(journey.description);
           res.body[0].should.have.property('geopoints').a('array');
-          res.body[0].should.have.property('geopoints').length(3);
+          res.body[0].should.have.property('geopoints').length(0);
           done();
         });
     })
@@ -146,7 +128,7 @@ describe('Journey', () => {
           res.body.should.have.property('title').eql(journey.title);
           res.body.should.have.property('description').eql(journey.description);
           res.body.should.have.property('geopoints').a('array');
-          res.body.should.have.property('geopoints').length(3);
+          res.body.should.have.property('geopoints').length(0);
           done();
         });
     })

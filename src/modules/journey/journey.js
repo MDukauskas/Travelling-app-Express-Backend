@@ -5,23 +5,14 @@ const mongoose = require('mongoose');
 
 
 const addJouney = function(req,res){
-  var body = _.pick(req.body, ['title', 'description', 'geopoints']);
+  var body = _.pick(req.body, ['title', 'description']);
   body = {...body};
   body['user'] = req.user.id;
-
-  body.geopoints.map( geopoint => {
-    let geopointId = mongoose.Types.ObjectId();
-    geopoint['_id'] = geopointId;
-    new Geopoint(geopoint).save();
-
-    return geopoint;
-  });
 
   const newJourney = new Journey(body);
   newJourney.save().then( journeyObject => {
     Journey.findOne({user: req.user.id, '_id': journeyObject.id})
       .populate('user')
-      .populate('geopoints')
       .then( journey => {
         if(!journey){
           return Promise.reject();

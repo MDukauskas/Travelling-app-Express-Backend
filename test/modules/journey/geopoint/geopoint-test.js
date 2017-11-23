@@ -21,24 +21,6 @@ describe('Geopoint', () => {
   let journey = {
   	title: 'test title 1',
   	description: 'test description 1',
-  	geopoints : [
-  		{
-  			title: 'test_point title 1',
-  			description: 'test point description 1',
-  			lng: 123.25,
-  			lat: -1234
-  		},{
-  			title: 'test_point title 2',
-  			description: 'test point description 2',
-  			lng: -123,
-  			lat: 1234
-  		},{
-  			title: 'test_point title 3',
-  			description: 'test point description 3',
-  			lng: -123.5656,
-  			lat: -1234.5656
-  		}
-  	]
   };
 
   let geopoint = {
@@ -73,7 +55,7 @@ describe('Geopoint', () => {
             res.body.should.have.property('title').eql(journey.title);
             res.body.should.have.property('description').eql(journey.description);
             res.body.should.have.property('geopoints').a('array');
-            res.body.should.have.property('geopoints').length(3);
+            res.body.should.have.property('geopoints').length(0);
 
             journeyId = res.body._id
             done();
@@ -139,7 +121,7 @@ describe('Geopoint', () => {
         .end((err, res) => {
           res.should.have.status(200);
           res.body.should.be.a('array');
-          res.body.should.be.length(4);
+          res.body.should.be.length(1);
           done();
         });
     })
