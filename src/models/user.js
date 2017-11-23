@@ -5,6 +5,7 @@ const Schema = mongoose.Schema;
 const validator = require('validator');
 const config = require('../config');
 
+// Some pointless comment
 var UserSchema = new Schema({
   email: {
     type: String,
