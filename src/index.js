@@ -8,22 +8,28 @@ const app = express();
 app.use(bodyParser.json());
 
 moongoose.Promise = global.Promise;
-moongoose.connect(CONFIG.DATABASE_URL, {
-  useMongoClient: true
-});
+moongoose
+  .connect(CONFIG.DATABASE_URL)
+  .then(() => {
+    console.log('mongo connected');
+  })
+  .catch(err => {
+    console.log(err);
+  });
+
 app.get('/', (req, res) => {
   res.send({
-    'message': `welcome to ${CONFIG.APP_NAME} API version: ${CONFIG.VERSION}`
+    message: `welcome to ${CONFIG.APP_NAME} API version: ${CONFIG.VERSION}`
   });
 });
 
 app.use('/api', require('./modules/routes')(router));
 
-const server = app.listen(CONFIG.PORT, function () {
+const server = app.listen(CONFIG.PORT, function() {
   console.log(`Server Starts on ${CONFIG.PORT}`);
 });
 
 module.exports = {
-    server : server,
-    app : app
+  server: server,
+  app: app
 };
