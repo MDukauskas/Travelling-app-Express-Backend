@@ -83,7 +83,7 @@ const getJourneyAllGeopoints = async function(req, res) {
       .end();
   }
 
-  res.send(journey.geopoints);
+  journey.geopoints ? res.send(journey.geopoints) : res.send([]);
 };
 
 const deleteJourneyAllGeopoints = function(req, res) {
