@@ -9,7 +9,13 @@
       "request": "launch",
       "name": "Mocha Tests",
       "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
-      "args": ["--timeout", "999999", "--colors", "${workspaceFolder}/test"],
+      "args": [
+        "--timeout",
+        "999999",
+        "--colors",
+        "${workspaceFolder}/test",
+        "--exit"
+      ],
       "internalConsoleOptions": "openOnSessionStart"
     },
     {

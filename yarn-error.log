@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js prod:start
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -2545,9 +2545,9 @@ Lockfile:
 
 Trace: 
   Error: Command failed.
-  Exit signal: SIGKILL
+  Exit code: 1
   Command: sh
-  Arguments: -c node src/index.js
+  Arguments: -c mocha --timeout 10000 --exit
   Directory: /Users/mindaugasdukauskas/Documents/Projects/Travelling-app-Express-Backend
   Output:
   
