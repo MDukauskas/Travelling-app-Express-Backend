@@ -18,5 +18,7 @@ module.exports = function(router){
     .delete('/:journey_id/geopoint/:geopoint_id', authentication_middleware, geopoint_authorization_middleware, deleteJourneyGeopoint)
     .get('/:journey_id/geopoint', authentication_middleware, getJourneyAllGeopoints)
     .delete('/:journey_id/geopoint', authentication_middleware, geopoint_authorization_middleware, deleteJourneyAllGeopoints)
+    .use('/:journey_id/geopoint', require('./photo/index')(router))
+
   return router;
 }

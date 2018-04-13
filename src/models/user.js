@@ -5,72 +5,79 @@ const Schema = mongoose.Schema;
 const validator = require('validator');
 const config = require('../config');
 
-var UserSchema = new Schema({
-  email: {
-    type: String,
-    required: true,
-    trim: true,
-    minlength:1,
-    unique: true,
-    validate: {
-      validator: validator.isEmail,
-      message: '{VALUE} is not valid email address'
-    }
-  },
-  password: {
-    type: String,
-    require: true,
-    bcrypt: true,
-    minlength: 8
-  },
-  tokens: [{
-    access:{
-      type:String,
-      required:true
+var UserSchema = new Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 1,
+      unique: true,
+      validate: {
+        validator: validator.isEmail,
+        message: '{VALUE} is not valid email address'
+      }
     },
-    token:{
-      type:String,
-      required:true
-    }
-  }]
-},
-{
-    timestamps: true
-});
+    password: {
+      type: String,
+      require: true,
+      bcrypt: true,
+      minlength: 8
+    },
+    tokens: [
+      {
+        access: {
+          type: String,
+          required: true
+        },
+        token: {
+          type: String,
+          required: true
+        }
+      }
+    ]
+  },
+  {
+    timestamps: true,
+    strict: true
+  }
+);
 
 UserSchema.plugin(require('mongoose-bcrypt'));
 
-UserSchema.methods.toJSON = function(){
+UserSchema.methods.toJSON = function() {
   var user = this;
   var userObject = user.toObject();
   return _.pick(userObject, ['_id', 'email']);
 };
 
-UserSchema.methods.generateAuthToken = function(){
+UserSchema.methods.generateAuthToken = function() {
   var user = this;
   var access = 'auth';
-  var token = jwt.sign({_id: user._id.toHexString(), access}, config.TOKEN_KEY).toString();
+  var token = jwt
+    .sign({ _id: user._id.toHexString(), access }, config.TOKEN_KEY)
+    .toString();
 
   user.tokens.push({
-      access,
-      token
+    access,
+    token
   });
 
   return user.save().then(() => {
     return token;
   });
-}
+};
 
-UserSchema.methods.removeToken = function(token){
+UserSchema.methods.removeToken = function(token) {
   var user = this;
   return user.update({
     $pull: {
       tokens: { token }
     }
-  })
+  });
 };
 
-UserSchema.statics.findByToken = function(token){
+UserSchema.statics.findByToken = function(token) {
   var user = this;
   var decoded;
 
@@ -80,15 +87,15 @@ UserSchema.statics.findByToken = function(token){
     return Promise.reject();
   }
   return user.findOne({
-    '_id': decoded._id,
+    _id: decoded._id,
     'tokens.token': token,
     'tokens.access': 'auth'
   });
-}
+};
 
 try {
   var User = mongoose.model('User');
-} catch( e ) {
+} catch (e) {
   var User = mongoose.model('User', UserSchema);
 }
 

@@ -1,90 +1,97 @@
-const AWS = require('aws-sdk');
 const CONFIG = require('../../../config');
-const S3 = new AWS.S3();
-const _ = require('lodash');
-
+const { pick } = require('lodash');
 
 const { Journey } = require('../../../models/journey');
 const { Geopoint } = require('../../../models/geopoint');
 
-const getJourneyGeopoint = async function(req, res){
+const getJourneyGeopoint = async function(req, res) {
   const journey = await Journey.findOne({
-      '_id' : req.params.journey_id,
-      'geopoints' : req.params.geopoint_id
-    });
+    _id: req.params.journey_id,
+    geopoints: req.params.geopoint_id
+  });
 
-  if(!journey){
-    res.status(404).send().end();
+  if (!journey) {
+    res
+      .status(404)
+      .send()
+      .end();
   }
 
-  const geopoint = await Geopoint.findOne({ '_id' :  req.params.geopoint_id })
+  const geopoint = await Geopoint.findOne({ _id: req.params.geopoint_id });
 
-  if(!geopoint){
-    res.status(404).send().end();
+  if (!geopoint) {
+    res
+      .status(404)
+      .send()
+      .end();
   }
 
-  res.send(geopoint)
-}
+  res.send(geopoint);
+};
 
-const addJourneyGeopoint = function(req, res){
-  var body = _.pick(req.body, ['title', 'description', 'lat', 'lng']);
-  body = {...body};
+const addJourneyGeopoint = function(req, res) {
+  var body = pick(req.body, ['title', 'description', 'lat', 'lng']);
+  body = { ...body };
 
   const newGeopoint = new Geopoint(body);
-  newGeopoint.save().then( geopointObject => {
-    Geopoint.findOne({'_id': geopointObject.id})
-      .then( geopoint => {
+  newGeopoint
+    .save()
+    .then(geopointObject => {
+      Geopoint.findOne({ _id: geopointObject.id })
+        .then(geopoint => {
+          if (!geopoint) {
+            return Promise.reject();
+          }
 
-        if(!geopoint){
-          return Promise.reject();
-        }
+          req.journey.geopoints.push(geopoint);
+          req.journey.save();
 
-        req.journey.geopoints.push(geopoint);
-        req.journey.save();
+          res.send(geopoint);
+        })
+        .catch(err => {
+          res.status(400).send();
+        });
+    })
+    .catch(e => {
+      res.status(422).send(e);
+    });
+};
 
-        res.send(geopoint);
-      })
-      .catch( err => {
-        res.status(400).send();
-      })
-  }).catch( e => {
-    res.status(422).send(e);
+const updateJourneyGeopoint = function(req, res) {
+  res.send({
+    message: 'update geopoint',
+    params: { ...req.params }
   });
-}
+};
 
-const updateJourneyGeopoint = function(req, res){
+const deleteJourneyGeopoint = function(req, res) {
   res.send({
-    message:"update geopoint",
+    message: 'delete geopoint',
     params: { ...req.params }
-  })
-}
+  });
+};
 
-const deleteJourneyGeopoint = function(req, res){
-  res.send({
-    message:"delete geopoint",
-    params: { ...req.params }
-  })
-}
-
-const getJourneyAllGeopoints = async function(req, res){
+const getJourneyAllGeopoints = async function(req, res) {
   const journey = await Journey.findOne({
-      '_id' : req.params.journey_id
-    }).populate('geopoints')
+    _id: req.params.journey_id
+  }).populate('geopoints');
 
-  if(!journey){
-    res.status(404).send().end();
+  if (!journey) {
+    res
+      .status(404)
+      .send()
+      .end();
   }
 
-  res.send(journey.geopoints)
-}
+  journey.geopoints ? res.send(journey.geopoints) : res.send([]);
+};
 
-const deleteJourneyAllGeopoints = function(req, res){
+const deleteJourneyAllGeopoints = function(req, res) {
   res.send({
-    message:"delete all geopoints",
+    message: 'delete all geopoints',
     params: { ...req.params }
-  })
-}
-
+  });
+};
 
 module.exports = {
   getJourneyGeopoint,
