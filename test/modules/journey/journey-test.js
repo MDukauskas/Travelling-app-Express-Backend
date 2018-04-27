@@ -23,6 +23,11 @@ describe('Journey', () => {
     description: 'test description 1'
   };
 
+  let journeyUpdated = {
+    title: 'test title 1',
+    description: 'test description 1'
+  };
+
   let userToken = '';
   let journeyId = '';
 
@@ -75,6 +80,39 @@ describe('Journey', () => {
           res.body.should.have.property('description').eql(journey.description);
           res.body.should.have.property('geopoints').a('array');
           res.body.should.have.property('geopoints').length(0);
+
+          journeyId = res.body._id;
+          done();
+        });
+    });
+  });
+
+  describe('/PUT /api/journey/:journey_id', () => {
+    it('it should return 401 unauthorized', done => {
+      chai
+        .request(app)
+        .put(`/api/journey/${journeyId}`)
+        .send(journey)
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+
+    it('it should return journey object', done => {
+      chai
+        .request(app)
+        .put(`/api/journey/${journeyId}`)
+        .set('x-auth', userToken)
+        .send(journeyUpdated)
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('_id');
+          res.body.should.have.property('title').eql(journeyUpdated.title);
+          res.body.should.have
+            .property('description')
+            .eql(journeyUpdated.description);
 
           journeyId = res.body._id;
           done();

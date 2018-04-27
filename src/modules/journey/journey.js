@@ -30,7 +30,33 @@ const addJouney = function(req, res) {
     });
 };
 
-const updateJourney = function(req, res) {};
+const updateJourney = function(req, res) {
+  const body = _.pick(req.body, ['title', 'description']);
+  Journey.findOne({ _id: req.params.journey_id }).then(journey => {
+    if (!journey) {
+      res
+        .status(404)
+        .send()
+        .end();
+    }
+
+    journey.title = body.title;
+    journey.description = body.description;
+
+    journey.save(err => {
+      if (err) {
+        res
+          .status(500)
+          .send()
+          .end();
+      }
+      res
+        .status(200)
+        .send(journey)
+        .end();
+    });
+  });
+};
 
 const deleteJourney = function(req, res) {
   Journey.findByIdAndRemove({ _id: req.params.journey_id })
