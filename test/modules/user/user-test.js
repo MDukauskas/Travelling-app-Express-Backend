@@ -18,6 +18,7 @@ describe('User', () => {
   };
 
   let userToken = '';
+  let newPassword = { password: 'newpassword' };
 
   // Clears user database
   before(done => {
@@ -35,8 +36,18 @@ describe('User', () => {
   });
 
   after(done => {
-    server.close();
-    done();
+    chai
+      .request(app)
+      .put('/api/user/password')
+      .set('x-auth', userToken)
+      .send({ password: user.password })
+      .then(res => {
+        server.close();
+        done();
+      })
+      .catch(e => {
+        console.log(e);
+      });
   });
 
   describe('/GET /api/user/me', () => {
@@ -60,6 +71,55 @@ describe('User', () => {
           res.body.should.be.a('object');
           res.body.should.have.property('_id');
           res.body.should.have.property('email').eql(user.email);
+          done();
+        });
+    });
+  });
+  describe('/PUT /api/user/password', () => {
+    it('it should return 401 unauthorized', done => {
+      chai
+        .request(app)
+        .put('/api/user/password')
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+
+    it('it should return status 200', done => {
+      chai
+        .request(app)
+        .put('/api/user/password')
+        .send(newPassword)
+        .set('x-auth', userToken)
+        .end((err, res) => {
+          res.should.have.status(200);
+          done();
+        });
+    });
+    it('it should let login with old password', done => {
+      chai
+        .request(app)
+        .post('/api/login')
+        .send(user)
+        .end((err, res) => {
+          res.should.have.status(401);
+          done();
+        });
+    });
+    it('it should let login with new password', done => {
+      chai
+        .request(app)
+        .post('/api/login')
+        .send({
+          ...user,
+          password: newPassword.password
+        })
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body.should.be.a('object');
+          res.body.should.have.property('email').eql(user.email);
+          res.should.have.header('x-auth');
           done();
         });
     });
