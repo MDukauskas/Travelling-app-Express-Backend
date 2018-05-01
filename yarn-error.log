@@ -1,5 +1,5 @@
 Arguments: 
-  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js test
+  /usr/local/bin/node /usr/local/Cellar/yarn/1.5.1_1/libexec/bin/yarn.js install global yarn
 
 PATH: 
   /usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
@@ -8,7 +8,7 @@ Yarn version:
   1.5.1
 
 Node version: 
-  8.11.1
+  10.0.0
 
 Platform: 
   darwin x64
@@ -20,10 +20,11 @@ npm manifest:
     "description": "Travelling platform backend software.",
     "main": "src/index.js",
     "engines": {
-      "node": "8.11.1"
+      "node": "10.0.0"
     },
     "scripts": {
-      "start": "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
+      "start":
+        "if-env NODE_ENV=production && npm run prod:start || npm run dev:start",
       "benchmark": "node src/benchmark.js",
       "dev:start": "nodemon src/index.js",
       "prod:start": "node src/index.js",
@@ -37,9 +38,9 @@ npm manifest:
       "express": "^4.16.3",
       "if-env": "^1.0.4",
       "jsonwebtoken": "^8.2.1",
-      "lodash": "^4.17.5",
-      "mongoose": "^5.0.14",
-      "mongoose-bcrypt": "^1.5.0",
+      "lodash": "^4.17.10",
+      "mongoose": "^5.0.17",
+      "mongoose-bcrypt": "^1.5.1",
       "nodemon": "^1.17.3",
       "passport": "^0.4.0",
       "siege": "^0.2.0",
@@ -48,7 +49,7 @@ npm manifest:
     "devDependencies": {
       "chai": "^4.1.2",
       "chai-http": "^4.0.0",
-      "mocha": "^5.0.5"
+      "mocha": "^5.1.1"
     }
   }
 
@@ -2544,17 +2545,9 @@ Lockfile:
     resolved "https://registry.yarnpkg.com/yallist/-/yallist-2.1.2.tgz#1c11f9218f076089a47dd512f93c6699a6a81d52"
 
 Trace: 
-  Error: Command failed.
-  Exit code: 1
-  Command: sh
-  Arguments: -c mocha --timeout 10000 --exit
-  Directory: /Users/mindaugasdukauskas/Documents/Projects/Travelling-app-Express-Backend
-  Output:
-  
-      at ProcessTermError.MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
-      at new ProcessTermError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:226:113)
-      at ChildProcess.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:30281:17)
-      at emitTwo (events.js:126:13)
-      at ChildProcess.emit (events.js:214:7)
-      at maybeClose (internal/child_process.js:925:16)
-      at Process.ChildProcess._handle.onexit (internal/child_process.js:209:5)
+  Error: `install` has been replaced with `add` to add new dependencies. Run "yarn add global yarn" instead.
+      at new MessageError (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:186:110)
+      at Object.<anonymous> (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:21987:13)
+      at Generator.next (<anonymous>)
+      at step (/usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:98:30)
+      at /usr/local/Cellar/yarn/1.5.1_1/libexec/lib/cli.js:109:13
